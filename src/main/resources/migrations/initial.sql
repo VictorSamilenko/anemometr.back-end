@@ -14,8 +14,7 @@ create table settings (
 			references devices
 				on delete cascade,
 	delay integer default 300
-)
-;
+);
 
 create table states
 (
