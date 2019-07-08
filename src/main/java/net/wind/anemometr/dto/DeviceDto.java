@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 public class DeviceDto {
     private Long id;
     private String imei;
+    private String name;
     private Double latitude;
     private Double longitude;
 }

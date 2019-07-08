@@ -1,38 +1,34 @@
-create table devices (
-	id bigserial not null constraint devices_pkey primary key,
-	imei varchar(17) not null,
-	latitude numeric,
-	longitude numeric);
+DROP TABLE IF EXISTS public.states CASCADE;
+DROP TABLE IF EXISTS public.settings CASCADE;
+DROP TABLE IF EXISTS public.devices CASCADE;
 
-create unique index devices_id_uindex on devices (id);
+CREATE TABLE public.devices
+(
+  id BIGSERIAL PRIMARY KEY NOT NULL,
+  imei VARCHAR(17) NOT NULL,
+  name VARCHAR(255),
+  latitude NUMERIC,
+  longitude NUMERIC
+);
+CREATE UNIQUE INDEX devices_id_uindex ON public.devices (id);
+CREATE UNIQUE INDEX devices_imei_uindex ON public.devices (imei);
 
-create unique index devices_imei_uindex	on devices (imei);
-
-create table settings (
-	device_id bigint not null constraint settings_pkey primary key
-		constraint settings_device_fk
-			references devices
-				on delete cascade,
-	delay integer default 300
+CREATE TABLE public.settings
+(
+  device_id BIGINT PRIMARY KEY NOT NULL,
+  delay INT DEFAULT 300,
+  CONSTRAINT settings_device_fk FOREIGN KEY (device_id) REFERENCES devices (id) ON DELETE CASCADE
 );
 
-create table states
+
+CREATE TABLE public.states
 (
-	id bigserial not null
-		constraint states_pkey
-			primary key,
-	device_id bigint
-		constraint states_device_fk
-			references devices
-				on delete cascade,
-	state_time timestamp default (now())::timestamp(0) without time zone,
-	wind_speed numeric(4,2),
-	wind_direction integer,
-	voltage numeric(4,2)
-)
-;
-
-create unique index states_id_uindex
-	on states (id)
-;
-
+  id BIGSERIAL PRIMARY KEY NOT NULL,
+  device_id BIGINT,
+  state_time TIMESTAMP DEFAULT now()::timestamp(0),
+  wind_speed NUMERIC(4,2),
+  wind_direction INT,
+  voltage NUMERIC(4,2),
+  CONSTRAINT states_device_fk FOREIGN KEY (device_id) REFERENCES devices (id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX states_id_uindex ON public.states (id);
