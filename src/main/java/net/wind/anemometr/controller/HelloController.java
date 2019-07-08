@@ -8,7 +8,7 @@ public class HelloController {
 
     @RequestMapping("/")
     public String status() {
-        return "I'm work";
+        return "I'm alive!";
     }
 
 }
