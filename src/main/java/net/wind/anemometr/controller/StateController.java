@@ -29,7 +29,7 @@ public class StateController {
     }
 
     @PostMapping
-    public ResponseEntity addCurrentState(@RequestBody StateDto stateDto) {
+    public ResponseEntity addCurrentState(@RequestBody final StateDto stateDto) {
         stateService.addCurrentState(stateDto);
 
         return new ResponseEntity(HttpStatus.CREATED);

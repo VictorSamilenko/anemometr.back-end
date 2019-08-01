@@ -26,7 +26,7 @@ public class DeviceController {
     }
 
     @PostMapping("/{imei}/registry")
-    public ResponseEntity<Long> registry(final @PathVariable("imei") String imei) {
+    public ResponseEntity<Long> registry(@PathVariable("imei") final String imei) {
         long deviceId = deviceService.registry(imei);
         return ResponseEntity.ok(deviceId);
     }
